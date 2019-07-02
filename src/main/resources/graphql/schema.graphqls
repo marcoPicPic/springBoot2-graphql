@@ -1,0 +1,90 @@
+#TODO découper en n fichiers *.graphqls
+
+# Document qui décrit les compteurs en temps réel
+type RealTimeCounter {
+    #  Id du tenant etc
+    tenantId: Long
+     #  Nom du tenant, etc
+    tenantName: String
+     #  Tenant Uuid
+	tenantUuid: String
+	 #  Date de la stat
+	dateStat: String
+	#  Id du compteur
+	realtimeCounterId:String
+	#  Nom du compteur
+	counterCode:String
+	#  Id de l'entité
+	entityId: Long
+	#  Type de l'entité
+	entityType:String
+	#  Nom de l'entité
+	entityTypeName:String
+	#  UUid de l'entité
+	entityUuid:String
+	#  Nom de l'entité
+	entityName:String
+	#  id du compteur
+	counterId:Long
+	#  Valeur du realTime
+	realtimeCounterValue:Long
+	#  Champ du realTime
+	realtimeCounterValueString:String
+	}
+
+
+type PhoneActivity {
+    tenantId: Long
+    tenantName: String
+	tenantUuid: String
+	dateStat: String
+	queueId: Long
+	realTimeQueueId: Long
+	operatorId: Long
+	transferFromOperatorId: Long
+	transferToOperatorId: Long
+	acdCustomerId: Long
+	callUuid: String
+	attemptIdNb: Long
+	callTypeId: Long
+	customerPhone: String
+	linkResultId: Long
+	eventStateId: Long
+	phoneStateBeginTime: Long
+	queueWaitingBeginTime: String
+	queueWaitingDuration: Long
+	popupBeginTime: Long
+	popupDuration: Long
+	ringingBeginTime: Long
+	ringingDuration: Long
+	communicationBeginTime: Long
+	communicationDuration: Long
+	}
+
+type MailsThreadsInProgressView {
+    mailId: Int
+	dateMail: String
+	email: String
+	subject: String
+    threadToProcess: Int
+    queueId: Int
+    tenantId: Int
+    }
+
+# A type that describes the Query disponible
+type Query {
+#Liste des documents de l'index "phone_activity_counters"
+#en fonction du tenant posibilité de filtré le nombre de résultats par page(s)
+phoneActivities(tenantUuid: String, tenantId: Int , page: Int, size: Int): [PhoneActivity]
+# Liste des documents de l'index "realtime_counters"
+#en fonction du tenant posibilité de filtré le nombre de résultats par page(s)
+realtimeCounters(tenantUuid: String, tenantId: Int , page: Int, size: Int): [RealTimeCounter]
+#Liste des documents de l'index "realtime_counters"
+#en fonction du tenant et du nom du compteur limité à 100 résulats
+realtimeCounterByTenantAndCounterName(tenantUuid: String, tenantId: Int, counterName: String): RealTimeCounter
+# Liste des mails en cours limité à 100 résulats
+mailsThreadsInProgress: [MailsThreadsInProgressView]
+# Liste complète des documents de l'index "realtime_counters"
+# limité à 100 résulats
+listRealTimeCounter: [RealTimeCounter]
+}
